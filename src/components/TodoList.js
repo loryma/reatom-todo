@@ -1,9 +1,10 @@
 import { declareAtom, combine } from '@reatom/core';
 import { useAtom } from "@reatom/react";
 import { addTodoAction, AddTodo } from './AddTodo';
-import Todo from './Todo';
+import Todo, { toggleCompletedAction } from './Todo';
 import { VisibilityFilteredAtom, VISIBILITY_FILTERS } from './VisibilityFilters';
 import VisibilityFilter from './VisibilityFilters';
+import { List } from 'antd';
 
 export const todosAtom = declareAtom(
   'todosList', 
@@ -13,6 +14,7 @@ export const todosAtom = declareAtom(
     // `on(dependedDeclaredActionOrAtom, reducer)`
     // reducer: (oldState, dependedValues) => newState
     on(addTodoAction, (state, { id, value, completed }) => ({...state, [id]: { value, completed } })),
+    on(toggleCompletedAction, (state, { id }) => ({ ...state, [id]: { ...state[id], completed: !state[id].completed }})),
   ],
 );
 
@@ -44,14 +46,19 @@ export const TodosIdsFilteredAtom = declareAtom(
 
 function TodoList() {
   const todos = useAtom(TodosIdsFilteredAtom);
+
   return (
-    <div>
-      <AddTodo />
-      <ul>
-        {todos.map((id) => <Todo key={id} id={id} />)}
-      </ul>
-      <VisibilityFilter />
-    </div>
+    <List
+      header={<AddTodo />}
+      footer={<VisibilityFilter />}
+      bordered
+      dataSource={todos}
+      renderItem={id => (
+        <List.Item>
+          <Todo key={id} id={id} />
+        </List.Item>
+      )}
+    />
   )
 };
 

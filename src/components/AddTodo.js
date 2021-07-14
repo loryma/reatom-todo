@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { declareAction } from '@reatom/core';
 import { useAction } from "@reatom/react";
+import { Form, Input, Button } from 'antd';
 
 
 let nextTodoId = Math.random()
@@ -23,22 +24,43 @@ export const addTodoAction = Object.assign(
 
 export function AddTodo() {
   const [input, setInput] = useState('');
+  const [form] = Form.useForm();
   const handleSubmit = useAction(
-    e => {
-      e.preventDefault()
-      if (input.length !== 0) return addTodoAction(input)
+    value => {
+      if (value.todo.length !== 0) return addTodoAction(value.todo)
     },
-    [input]
+    []
   );
 
-  const handleChange = ({ target: { value }}) => setInput(value);
+  const handleChange = (value) => setInput(value);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input onChange={handleChange} value={input} />
-      <button className="add-todo" type="submit">
-        Add Todo
-      </button>
-    </form>
+    <Form 
+      form={form}
+      layout='inline'
+      onFinish={handleSubmit}
+      fields={[
+        {
+          name: [
+            'todo'
+          ],
+          value: input,
+        }
+      ]}
+      onFieldsChange={(_, allFields) => {
+        handleChange(allFields.todo);
+      }}
+    >
+      <Form.Item
+        name='todo'
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item>
+        <Button type='primary' htmlType='submit'>
+          Add Todo
+        </Button>
+      </Form.Item>
+    </Form>
   )
 }

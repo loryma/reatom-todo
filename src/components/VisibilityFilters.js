@@ -1,6 +1,7 @@
 import { declareAtom, declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
 import clsx from 'clsx';
+import { Radio } from 'antd';
 
 export const VISIBILITY_FILTERS = {
   ALL: "all",
@@ -8,7 +9,7 @@ export const VISIBILITY_FILTERS = {
   INCOMPLETE: "incomplete"
 }
 
-const filtersList = Object.keys(VISIBILITY_FILTERS)
+const filters = Object.values(VISIBILITY_FILTERS).map(value => ({ label: value, value }));
 
 const setFilterAction = declareAction('setFilterAction');
 
@@ -18,25 +19,14 @@ on => on(setFilterAction, (state, filter) => filter));
 
 function VisibilityFilter() {
   const visibilityFilter = useAtom(VisibilityFilteredAtom)
-  const handleClick = useAction(payload => setFilterAction(payload))
+  const handleClick = useAction(({ target: { value }}) => setFilterAction(value));
   return (
-    <div className="visibility-filters">
-      {filtersList.map(filterKey => {
-        const currentFilter = VISIBILITY_FILTERS[filterKey]
-        return (
-          <span
-            key={`visibility-filter-${currentFilter}`}
-            className={clsx(
-              "filter",
-              currentFilter === visibilityFilter && "filter--active"
-            )}
-            onClick={() => handleClick(currentFilter)}
-          >
-            {currentFilter}
-          </span>
-        )
-      })}
-    </div>
+    <Radio.Group
+      options={filters}
+      onChange={handleClick}
+      value={visibilityFilter}
+      optionType="button"
+    />
   );
 };
 
