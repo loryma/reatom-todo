@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
 import { todosAtom } from './TodoList';
-import { Checkbox, Button, Tooltip, Space, Input } from 'antd';
+import { Checkbox, Button, Tooltip, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import EditTodo from './EditTodo';
 

@@ -1,0 +1,12 @@
+.add-todo {
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.add-todo  .add-todo__input {
+ margin-right: 0;
+ flex-shrink: 1;
+}
+
+.add-todo  .add-todo__button {
+  margin-right: 0;
+ }

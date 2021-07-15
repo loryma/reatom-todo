@@ -4,8 +4,12 @@ import { addTodoAction, AddTodo } from './AddTodo';
 import Todo, { toggleCompletedAction, deleteTodoItemAction } from './Todo';
 import { VisibilityFilteredAtom, VISIBILITY_FILTERS } from './VisibilityFilters';
 import VisibilityFilter from './VisibilityFilters';
-import { List } from 'antd';
+import { List, Typography, Layout } from 'antd';
 import { editTodoItemAction } from './EditTodo';
+import './TodoList.css';
+
+const { Title } = Typography;
+const { Header, Content } = Layout;
 
 export const todosAtom = declareAtom(
   'todosList', 
@@ -25,7 +29,7 @@ export const todosAtom = declareAtom(
   ],
 );
 
-const todosIdsAtom = declareAtom(
+export const todosIdsAtom = declareAtom(
   'todosIdsAtom',
   [],
   on => [
@@ -58,17 +62,24 @@ function TodoList() {
   const todos = useAtom(TodosIdsFilteredAtom);
 
   return (
-    <List
-      header={<AddTodo />}
-      footer={<VisibilityFilter />}
-      bordered
-      dataSource={todos}
-      renderItem={id => (
-        <List.Item>
-          <Todo key={id} id={id} />
-        </List.Item>
-      )}
-    />
+    <Layout className="todo-list">
+      <Header><Title level={2} className="todo-list__title">Todo list</Title></Header>
+      <Layout>
+        <Content>
+          <List
+            header={<AddTodo />}
+            footer={<VisibilityFilter />}
+            bordered
+            dataSource={todos}
+            renderItem={id => (
+              <List.Item>
+                <Todo key={id} id={id} />
+              </List.Item>
+            )}
+          />
+        </Content>
+      </Layout>
+    </Layout>
   )
 };
 

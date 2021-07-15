@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { declareAction } from '@reatom/core';
 import { useAction } from "@reatom/react";
 import { Form, Input, Button } from 'antd';
+import './AddTodo.css';
 
 
 let nextTodoId = Math.random()
@@ -41,6 +42,7 @@ export function AddTodo() {
   return (
     <Form 
       form={form}
+      className="add-todo"
       layout='inline'
       onFinish={handleSubmit}
       fields={[
@@ -57,10 +59,11 @@ export function AddTodo() {
     >
       <Form.Item
         name='todo'
+        className="add-todo__input"
       >
-        <Input />
+        <Input placeholder="Add todo" />
       </Form.Item>
-      <Form.Item>
+      <Form.Item className="add-todo__button">
         <Button type='primary' htmlType='submit'>
           Add Todo
         </Button>

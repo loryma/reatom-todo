@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reatom/core": "^1.1.5",
+    "@reatom/debug": "^1.2.0",
     "@reatom/react": "^1.1.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

@@ -1,0 +1,7 @@
+.todo-list {
+  height: 100%;
+}
+.todo-list__title {
+  color: white !important;
+  margin-top: 12px;
+}

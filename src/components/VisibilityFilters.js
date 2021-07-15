@@ -1,6 +1,5 @@
 import { declareAtom, declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
-import clsx from 'clsx';
 import { Radio } from 'antd';
 
 export const VISIBILITY_FILTERS = {
