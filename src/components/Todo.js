@@ -3,7 +3,7 @@ import { declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
 import { todosAtom } from './TodoList';
 import { Checkbox, Button, Tooltip, Space, Input } from 'antd';
-import { DeleteFilled, EditFilled } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import EditTodo from './EditTodo';
 
 export const toggleCompletedAction = declareAction('toggleCompletedAction');
@@ -43,10 +43,10 @@ function Todo({ id }) {
         todoItem.value
       }
       <Tooltip title="edit">
-        <Button type="primary" onClick={setEditMode} shape="circle" icon={<EditFilled />} />
+        <Button type="primary" onClick={setEditMode} shape="circle" icon={<EditOutlined />} />
       </Tooltip>
       <Tooltip title="delete">
-        <Button type="danger" onClick={handleDeleteTodo} shape="circle" icon={<DeleteFilled />} />
+        <Button type="danger" onClick={handleDeleteTodo} shape="circle" icon={<DeleteOutlined />} />
       </Tooltip>
     </Space>
   );

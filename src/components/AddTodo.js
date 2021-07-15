@@ -27,7 +27,11 @@ export function AddTodo() {
   const [form] = Form.useForm();
   const handleSubmit = useAction(
     value => {
-      if (value.todo.length !== 0) return addTodoAction(value.todo)
+      if (value.todo.length !== 0) {
+        const newValue = value.todo;
+        setInput('');
+        return addTodoAction(newValue);
+      } 
     },
     []
   );
@@ -48,7 +52,7 @@ export function AddTodo() {
         }
       ]}
       onFieldsChange={(_, allFields) => {
-        handleChange(allFields.todo);
+        handleChange(allFields[0].value);
       }}
     >
       <Form.Item
