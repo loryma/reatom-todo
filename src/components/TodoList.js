@@ -5,6 +5,7 @@ import Todo, { toggleCompletedAction, deleteTodoItemAction } from './Todo';
 import { VisibilityFilteredAtom, VISIBILITY_FILTERS } from './VisibilityFilters';
 import VisibilityFilter from './VisibilityFilters';
 import { List } from 'antd';
+import { editTodoItemAction } from './EditTodo';
 
 export const todosAtom = declareAtom(
   'todosList', 
@@ -19,7 +20,8 @@ export const todosAtom = declareAtom(
       const newList = { ...state };
       delete newList[id];
       return newList;
-    })
+    }),
+    on(editTodoItemAction, (state, { id, value }) => ({ ...state, [id]: { ...state[id], value }}))
   ],
 );
 

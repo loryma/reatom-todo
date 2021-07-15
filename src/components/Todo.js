@@ -1,25 +1,32 @@
+import { useState } from 'react';
 import { declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
 import { todosAtom } from './TodoList';
-import { Typography, Checkbox, Button, Tooltip, Space } from 'antd';
-import { DeleteFilled } from '@ant-design/icons';
+import { Checkbox, Button, Tooltip, Space, Input } from 'antd';
+import { DeleteFilled, EditFilled } from '@ant-design/icons';
+import EditTodo from './EditTodo';
 
 export const toggleCompletedAction = declareAction('toggleCompletedAction');
-export const deleteTodoItemAction = declareAction('deleteTodoItemAction')
+export const deleteTodoItemAction = declareAction('deleteTodoItemAction');
 
 function Todo({ id }) {
+  const [isEditMode, setIsEditMode] = useState(false);
   const todoItem = useAtom(todosAtom, state => state[id]);
   const handleToggleComplete = useAction(
     e => toggleCompletedAction({ id }),
     [id]
   );
 
+  const setEditMode = () => {
+    setIsEditMode(state => !state);
+  }
+
   const handleDeleteTodo = useAction(
     e => deleteTodoItemAction({ id }),
     [id]
   );
 
-  if (!todosAtom) return null;
+  if (!todoItem) return null;
 
   return (
     <Space>
@@ -27,7 +34,17 @@ function Todo({ id }) {
         checked={todoItem.completed}
         onChange={handleToggleComplete}
       >
-      </Checkbox> {todoItem.value}
+      </Checkbox> 
+      { isEditMode ? 
+       (
+         <EditTodo id={id} initial={todoItem.value} setEditMode={setEditMode} />
+       )
+      : 
+        todoItem.value
+      }
+      <Tooltip title="edit">
+        <Button type="primary" onClick={setEditMode} shape="circle" icon={<EditFilled />} />
+      </Tooltip>
       <Tooltip title="delete">
         <Button type="danger" onClick={handleDeleteTodo} shape="circle" icon={<DeleteFilled />} />
       </Tooltip>
