@@ -1,7 +1,7 @@
 import { declareAtom, combine } from '@reatom/core';
 import { useAtom } from "@reatom/react";
 import { addTodoAction, AddTodo } from './AddTodo';
-import Todo, { toggleCompletedAction } from './Todo';
+import Todo, { toggleCompletedAction, deleteTodoItemAction } from './Todo';
 import { VisibilityFilteredAtom, VISIBILITY_FILTERS } from './VisibilityFilters';
 import VisibilityFilter from './VisibilityFilters';
 import { List } from 'antd';
@@ -15,13 +15,21 @@ export const todosAtom = declareAtom(
     // reducer: (oldState, dependedValues) => newState
     on(addTodoAction, (state, { id, value, completed }) => ({...state, [id]: { value, completed } })),
     on(toggleCompletedAction, (state, { id }) => ({ ...state, [id]: { ...state[id], completed: !state[id].completed }})),
+    on(deleteTodoItemAction, (state, { id }) => {
+      const newList = { ...state };
+      delete newList[id];
+      return newList;
+    })
   ],
 );
 
 const todosIdsAtom = declareAtom(
   'todosIdsAtom',
   [],
-  on => on(addTodoAction, (state, { id }) => [...state, id]),
+  on => [
+    on(addTodoAction, (state, { id }) => [...state, id]),
+    on(deleteTodoItemAction, (state, { id }) => state.filter( todoId => todoId !== id )),
+  ], 
 );
 
 export const TodosIdsFilteredAtom = declareAtom(
