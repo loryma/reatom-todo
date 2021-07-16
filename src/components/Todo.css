@@ -1,0 +1,13 @@
+.todo {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.todo > div:nth-child(2) {
+  overflow: hidden;
+}
+
+.todo__text {
+  display: inline-block;
+  max-width: 100%;
+}

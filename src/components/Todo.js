@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { declareAction } from '@reatom/core';
 import { useAtom, useAction } from "@reatom/react";
 import { todosAtom } from './TodoList';
-import { Checkbox, Button, Tooltip, Space } from 'antd';
+import { Checkbox, Button, Tooltip, Space, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import EditTodo from './EditTodo';
+import './Todo.css';
+
+const { Paragraph, Text } = Typography;
 
 export const toggleCompletedAction = declareAction('toggleCompletedAction');
 export const deleteTodoItemAction = declareAction('deleteTodoItemAction');
@@ -29,7 +32,7 @@ function Todo({ id }) {
   if (!todoItem) return null;
 
   return (
-    <Space>
+    <Space className="todo">
       <Checkbox
         checked={todoItem.completed}
         onChange={handleToggleComplete}
@@ -40,7 +43,10 @@ function Todo({ id }) {
          <EditTodo id={id} initial={todoItem.value} setEditMode={setEditMode} />
        )
       : 
-        todoItem.value
+
+        <Text ellipsis={true} className="todo__text">
+          {todoItem.value}
+        </Text>
       }
       <Tooltip title="edit">
         <Button type="primary" onClick={setEditMode} shape="circle" icon={<EditOutlined />} />
