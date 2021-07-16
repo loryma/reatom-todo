@@ -1,16 +1,25 @@
 import { useEffect } from 'react';
 import './App.css';
-import { createStore } from '@reatom/core';
+import { createStore, combine } from '@reatom/core';
 import { context } from '@reatom/react';
-import TodoList from './components/TodoList';
+import Home from './components/Home';
 import { connectReduxDevtools } from "@reatom/debug";
+import { todosAtom, todosIdsAtom, todosIdsVisible } from './components/TodoList';
 
-const store = createStore(
-  undefined,
-  JSON.parse(localStorage.getItem("app_store")) || {}
-);
+const shapeAtom = combine({
+  todosAtom, todosIdsAtom, todosIdsVisible
+});
+
 
 function App() {
+
+  const store = createStore(
+    shapeAtom,
+    JSON.parse(localStorage.getItem("app_store")) || {}
+  );
+
+  console.log(localStorage.getItem("app_store"))
+    
 
   useEffect(() => {
     return connectReduxDevtools(store)
@@ -26,7 +35,7 @@ function App() {
   return (
     <div className="App">
       <context.Provider value={store}>
-        <TodoList />
+        <Home />
       </context.Provider>
     </div>
   );
